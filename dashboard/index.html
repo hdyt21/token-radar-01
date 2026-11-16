@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Token Radar · model radar-2-comparables</p>
+    <h1>Which protocol launches the next big token?</h1>
+    <p class="lede">Every protocol below records no token on DefiLlama yet. The radar ranks them by
+    what a token would be worth if the protocol's record stayed as it is — valued the way the market
+    already values the same kind of protocol — and shows how to farm each one before it launches.</p>
+    <dl class="stats" id="stats"></dl>
+    <p class="fine" id="fine"></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel" aria-label="Top ten by implied value">
+    <h2>Top 10 by implied value</h2>
+    <ol class="bars" id="top10"></ol>
+  </section>
+
+  <section class="panel" aria-label="Filters">
+    <h2>Find a protocol</h2>
+    <form id="filters" class="filters">
+      <label>Search <input type="search" id="q" placeholder="Name or slug…" autocomplete="off"></label>
+      <label>Category
+        <select id="category"><option value="">All categories</option></select>
+      </label>
+      <label>Chain
+        <select id="chain"><option value="">All chains</option></select>
+      </label>
+      <label>Min TVL
+        <select id="minTvl">
+          <option value="0">Any TVL</option>
+          <option value="50000000">$50M and up</option>
+          <option value="100000000">$100M and up</option>
+          <option value="500000000">$500M and up</option>
+          <option value="1000000000">$1B and up</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="watchlistOnly"> Watchlist only</label>
+      <label class="check"><input type="checkbox" id="earlyOnly"> Early finds only</label>
+      <button type="button" id="reset">Reset</button>
+    </form>
+    <p class="count" id="count" aria-live="polite"></p>
+  </section>
+
+  <section class="panel" aria-label="Board">
+    <h2>The board</h2>
+    <p class="hint">Click a column to sort. Click a row for its detail view and farm plan.</p>
+    <div class="tablewrap">
+      <table id="board">
+        <thead><tr>
+          <th data-sort="rank">Rank</th>
+          <th data-sort="name">Protocol</th>
+          <th data-sort="category">Category</th>
+          <th data-sort="chains">Chains</th>
+          <th data-sort="tvl_usd">TVL</th>
+          <th data-sort="change_7d">7d</th>
+          <th data-sort="age_days">Age</th>
+          <th data-sort="implied_value_usd">Implied value</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel detail" id="detail" aria-label="Protocol detail" hidden></section>
+
+  <section class="panel" aria-label="How the value is worked out">
+    <h2>How the value is worked out</h2>
+    <p>Implied value = TVL × category multiple × growth × age × breadth. The multiple is not a
+    guess: for each category it is the median market-cap / TVL of the protocols in that category
+    whose token already trades in this same snapshot; categories with fewer than three live
+    comparables use the global median. Growth is the protocol's own 7-day TVL change, clamped to
+    −50%…+100% and weighted 0.6. Age rewards a longer record with no token yet (0.70 + 0.30 ×
+    age up to 3 years; unknown age counts as 365 days). Breadth adds 5% per extra chain, up to
+    four. Nothing is hardcoded by name: the same formula scores every row.</p>
+    <div class="tablewrap">
+      <table id="multiples">
+        <thead><tr><th>Category</th><th>Live comparables</th><th>Multiple</th></tr></thead>
+        <tbody id="multipleRows"></tbody>
+      </table>
+    </div>
+    <p class="fine">Global median multiple: <strong id="globalMultiple"></strong>. Multiples are
+    clamped to 0.02…1.50. A protocol records no token — that is DefiLlama's record, not proof it
+    has none. Implied value is this radar's claim, never a prediction that a token will launch.</p>
+  </section>
+
+  <section class="panel" aria-label="Protocols whose token already trades">
+    <h2>Already trading — the comparables</h2>
+    <p>These protocols already have a token, so the board shows the market's own value for them,
+    never a model. They are the comparables the multiples above come from — kept apart from the
+    ranked board, never mixed into it.</p>
+    <div class="tablewrap">
+      <table id="live">
+        <thead><tr><th>Protocol</th><th>Category</th><th>TVL</th><th>Market cap</th><th>Mcap / TVL</th></tr></thead>
+        <tbody id="liveRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="fine">
+    <p>Snapshot: DefiLlama protocols, fetched 2026-11-14. Watchlist floor $50,000,000 TVL.
+    Farm plans are general information, not financial advice; never pay to claim an airdrop.</p>
+  </footer>
+</main>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
